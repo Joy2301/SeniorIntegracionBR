@@ -1,0 +1,64 @@
+## Build results
+bin/
+obj/
+[Ll]og/
+*.log
+
+## VS Code
+.vscode/
+
+## Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Dotnet CLI
+*.dotnet-cli-info
+.vscode/
+
+## NuGet
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Rider
+.idea/
+
+## OS generated files
+.DS_Store
+Thumbs.db
+
+## Test Results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+*.testsettings
+*.vsmdi
+*.vsp
+*.vspx
+*.sap
+
+## Publish output
+publish/
+out/
+
+## docker (si usas)
+**/Dockerfile
+docker-compose.override.yml
+*.tar
+
+## User secrets (si usas dotnet user-secrets)
+secrets.json
+
+## Optional: ignore launchSettings if quieres configurar diferente por dev
+**/Properties/launchSettings.json
+
+## Optional: ignore compiled migrations
+Migrations/

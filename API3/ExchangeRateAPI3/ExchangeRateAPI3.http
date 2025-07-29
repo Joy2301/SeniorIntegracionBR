@@ -1,0 +1,6 @@
+@ExchangeRateAPI1_HostAddress = http://localhost:5274
+
+GET {{ExchangeRateAPI1_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
