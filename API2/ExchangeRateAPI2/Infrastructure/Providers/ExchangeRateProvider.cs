@@ -8,7 +8,7 @@
             { ("USD", "EUR"), 0.97m },
             { ("DOP", "USD"), 0.0182m },
             { ("DOP", "EUR"), 0.0166m },
-            { ("EUR", "USD"), 1.15m },
+            { ("EUR", "USD"), 1.10m },
             { ("EUR", "DOP"), 64.3m }
         };
         public Task<decimal> GetRateAsync(string from, string to)

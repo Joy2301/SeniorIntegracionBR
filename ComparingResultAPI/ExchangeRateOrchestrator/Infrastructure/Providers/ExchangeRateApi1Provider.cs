@@ -22,11 +22,10 @@ namespace ExchangeRateAPI1.Infrastructure.Providers
             response.EnsureSuccessStatusCode();
 
             var result = await response.Content.ReadFromJsonAsync<ExchangeRateApi1Response>();
-
             if (result == null)
                 throw new ApplicationException("Invalid response from API 1");
 
-            return result.Value;
+            return result.Rate;
         }
     }
 }

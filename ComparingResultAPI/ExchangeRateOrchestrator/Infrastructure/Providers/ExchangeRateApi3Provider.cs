@@ -25,14 +25,14 @@ namespace ExchangeRateOrchestrator.Infrastructure.Providers
                 quantity = command.Quantity
             };
 
-        var response = await _http.PostAsJsonAsync("api3/v1/ExchangeRate", body);
-        response.EnsureSuccessStatusCode();
+            var response = await _http.PostAsJsonAsync("api3/v1/ExchangeRate", body);
+            response.EnsureSuccessStatusCode();
 
-        var result = await response.Content.ReadFromJsonAsync<ExchangeResponse<decimal>>();
-        if (result?.Data == null)
-            throw new ApplicationException("Invalid response from API 3");
+            var result = await response.Content.ReadFromJsonAsync<ExchangeRateApi3Response>();
+            if (result is null)
+                throw new ApplicationException("Invalid response from API 3");
 
-        return result.Data.Total;
+            return result.Data;
         }
     }
 }

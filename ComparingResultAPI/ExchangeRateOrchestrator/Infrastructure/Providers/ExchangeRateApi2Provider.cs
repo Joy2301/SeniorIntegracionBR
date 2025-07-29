@@ -3,6 +3,7 @@ using ExchangeRateAPI1.Infrastructure.Providers;
 using ExchangeRateOrchestrator.Infrastructure.ApiResponse;
 using System.Net.Http;
 using System.Text;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace ExchangeRateOrchestrator.Infrastructure.Providers
@@ -19,23 +20,29 @@ namespace ExchangeRateOrchestrator.Infrastructure.Providers
 
         public async Task<decimal> GetRateAsync(ExchangeRateCommand command)
         {
-            var xml = $@"
-            <ExchangeRateCommand>
-              <from>{command.SourceCurrency}</from>
-              <to>{command.TargetCurrency}</to>
-              <amount>{command.Quantity}</amount>
-            </ExchangeRateCommand>";
+            var xml = $@"<xml>
+                            <from>{command.SourceCurrency}</from>
+                            <to>{command.TargetCurrency}</to>
+                            <amount>{command.Quantity}</amount>
+                        </xml>";
 
             var content = new StringContent(xml, Encoding.UTF8, "application/xml");
-
             var response = await _http.PostAsync("api2/v1/ExchangeRate", content);
             response.EnsureSuccessStatusCode();
 
-            var result = await response.Content.ReadFromJsonAsync<ExchangeResponse<decimal>>();
-            if (result?.Data == null)
+            await using var stream = await response.Content.ReadAsStreamAsync();
+
+            var serializer = new XmlSerializer(typeof(ExchangeRateApi2Response));
+
+            // Esto fuerza ignorar namespaces
+            var settings = new XmlReaderSettings { Async = true };
+            using var reader = XmlReader.Create(stream, settings);
+            var result = (ExchangeRateApi2Response?)serializer.Deserialize(reader);
+
+            if (result == null)
                 throw new ApplicationException("Invalid XML response from API 2");
 
-            return result.Data.Total;
+            return result.Result;
         }
     }
 }
